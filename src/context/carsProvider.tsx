@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
 import axios from "axios"
 import { addCarFormData, updateCarFormData } from "../utils/types/cars"
 
@@ -32,6 +32,7 @@ type CarsContextType = {
   carsPrivate: ICars[] | null
   error: string | null
   fetchCarsPublic: () => void
+  searchCars: (capacity?: string, availableAt?: string, pickupTime?: string) => void
   fetchCarsPrivate: () => void
   fetchCarsById: (id: number) => Promise<updateCarFormData | undefined>
   addCar: (data: addCarFormData) => Promise<void>
@@ -45,6 +46,10 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const [carsPublic, setCarsPublic] = useState<ICars[] | null>(null)
   const [carsPrivate, setCarsPrivate] = useState<ICars[] | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    searchCars()
+  }, [])
 
   const fetchCarsPrivate = async () => {
     try {
@@ -63,8 +68,34 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     try {
       const response = await axios.get("http://localhost:8000/api/v1/cars/public")
       setCarsPublic(response.data.data)
+      return response.data.data
     } catch (error) {
       setError("Failed to fetch cars")
+    }
+  }
+
+  const searchCars = async (capacity?: string, availableAt?: string, pickupTime?: string) => {
+    try {
+      const url = new URL("http://localhost:8000/api/v1/cars/public")
+
+      if (capacity) url.searchParams.append("capacityFilter", capacity)
+      if (availableAt && pickupTime) {
+        const dateFilter = `${availableAt}T${pickupTime}`
+        url.searchParams.append("dateFilter", dateFilter)
+      }
+      const decoded = decodeURIComponent(url.href)
+
+      const response = await axios.get(decoded)
+
+      if (response.status !== 200) {
+        setError("Failed to fetch cars.")
+        throw new Error("Failed to fetch cars.")
+      }
+
+      setCarsPublic(response.data.data)
+    } catch (error) {
+      setCarsPublic([])
+      setError("Failed to fetch cars. Please try again.")
     }
   }
 
@@ -172,6 +203,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     carsPrivate,
     fetchCarsPrivate,
     fetchCarsPublic,
+    searchCars,
     fetchCarsById,
     addCar,
     updateCar,

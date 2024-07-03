@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react"
 import feather from "feather-icons"
 import { AuthContext } from "../../../context/authProvider"
 import { Link } from "react-router-dom"
+import { HashLink } from "react-router-hash-link"
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,28 +31,30 @@ const Navbar: React.FC = () => {
       <nav className="start-0 top-0 z-20 flex w-full justify-center bg-[#f1f3ff]">
         <div className="container md:w-3/4 w-11/12">
           <div className="my-8 flex h-9 items-center justify-between py-4">
-            <div className="bg-[#0d28a6] h-9 w-[100px]"></div>
+            <HashLink to={"/"}>
+              <div className="bg-[#0d28a6] h-9 w-[100px]"></div>
+            </HashLink>
             <div className="hidden items-center space-x-0 md:flex md:space-x-4 lg:space-x-8">
               <ul className="flex space-x-0 md:space-x-4 lg:space-x-8">
                 <li>
-                  <a href="#our" className="">
+                  <HashLink smooth to={"/#our"} className="">
                     Our Services
-                  </a>
+                  </HashLink>
                 </li>
                 <li>
-                  <a href="#why" className="">
+                  <HashLink smooth to={"/#why"} className="">
                     Why Us
-                  </a>
+                  </HashLink>
                 </li>
                 <li>
-                  <a href="#testimonial" className="">
+                  <HashLink smooth to={"/#testimonial"} className="">
                     Testimonial
-                  </a>
+                  </HashLink>
                 </li>
                 <li>
-                  <a href="#faq" className="">
+                  <HashLink smooth to={"/#faq"} className="">
                     FAQ
-                  </a>
+                  </HashLink>
                 </li>
               </ul>
               {auth ? (
@@ -105,24 +108,24 @@ const Navbar: React.FC = () => {
                 <h1 className="text-sm font-bold">BCR</h1>
                 <ul className="space-y-4">
                   <li>
-                    <a href="#our" className="">
+                    <HashLink smooth to={"/#our"} className="">
                       Our Services
-                    </a>
+                    </HashLink>
                   </li>
                   <li>
-                    <a href="#why" className="">
+                    <HashLink smooth to={"/#why"} className="">
                       Why Us
-                    </a>
+                    </HashLink>
                   </li>
                   <li>
-                    <a href="#testimonial" className="">
+                    <HashLink smooth to={"/#testimonial"} className="">
                       Testimonial
-                    </a>
+                    </HashLink>
                   </li>
                   <li>
-                    <a href="#faq" className="">
+                    <HashLink smooth to={"/#faq"} className="">
                       FAQ
-                    </a>
+                    </HashLink>
                   </li>
                 </ul>
                 {auth ? (

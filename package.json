@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
     "@types/js-cookie": "^3.0.6",
+    "@types/react-router-hash-link": "^2.4.9",
     "@types/swiper": "^6.0.0",
     "axios": "^1.7.2",
     "feather-icons": "^4.29.2",
@@ -22,6 +23,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
     "react-router-dom": "^6.23.1",
+    "react-router-hash-link": "^2.4.3",
     "swiper": "^11.1.4",
     "yup": "^1.4.0"
   },
