@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react"
-import axios from "axios"
 import { addCarFormData, updateCarFormData } from "../utils/types/cars"
+import { axiosInstance } from "../services/axios"
 
 interface ICars {
   id: number
@@ -53,7 +53,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   const fetchCarsPrivate = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/cars", {
+      const response = await axiosInstance.get("cars", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -66,7 +66,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   const fetchCarsPublic = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/cars/public")
+      const response = await axiosInstance.get("cars/public")
       setCarsPublic(response.data.data)
       return response.data.data
     } catch (error) {
@@ -76,16 +76,17 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   const searchCars = async (capacity?: string, availableAt?: string, pickupTime?: string) => {
     try {
-      const url = new URL("http://localhost:8000/api/v1/cars/public")
+      const queryParams: Record<string, string | undefined> = {};
 
-      if (capacity) url.searchParams.append("capacityFilter", capacity)
+      if (capacity) queryParams["capacityFilter"] = capacity
       if (availableAt && pickupTime) {
         const dateFilter = `${availableAt}T${pickupTime}`
-        url.searchParams.append("dateFilter", dateFilter)
+        queryParams["dateFilter"] = dateFilter
       }
-      const decoded = decodeURIComponent(url.href)
 
-      const response = await axios.get(decoded)
+      const response = await axiosInstance.get("/cars/public", {
+        params: queryParams,
+      })
 
       if (response.status !== 200) {
         setError("Failed to fetch cars.")
@@ -102,7 +103,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const fetchCarsById = async (id: number): Promise<updateCarFormData | undefined> => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.get(`http://localhost:8000/api/v1/cars/${id}`, {
+      const response = await axiosInstance.get(`cars/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -134,7 +135,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       const imageFile = document.getElementById("imageInput") as HTMLInputElement
       formData.append("image", imageFile?.files?.item(0) as File)
 
-      const response = await axios.post("http://localhost:8000/api/v1/cars", formData, {
+      const response = await axiosInstance.post("cars", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -173,7 +174,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         }
       }
 
-      const response = await axios.patch(`http://localhost:8000/api/v1/cars/${id}`, formData, {
+      const response = await axiosInstance.patch(`cars/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -187,7 +188,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   const deleteCar = async (id: number): Promise<void> => {
     try {
-      const data = await axios.delete(`http://localhost:8000/api/v1/cars/${id}`, {
+      const data = await axiosInstance.delete(`cars/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
