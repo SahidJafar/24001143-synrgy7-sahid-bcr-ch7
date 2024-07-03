@@ -6,9 +6,10 @@ interface SidebarProps {
   toggleAsideMenu: () => void
   title: string
   subTitle: string
+  linkSubTitle: string
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ aside2Visible, asideMenuVisible, toggleAsideMenu, title, subTitle }) => {
+const Sidebar: React.FC<SidebarProps> = ({ aside2Visible, asideMenuVisible, toggleAsideMenu, title, subTitle, linkSubTitle }) => {
   return (
     <>
       {/* Aside 1 */}
@@ -36,9 +37,9 @@ const Sidebar: React.FC<SidebarProps> = ({ aside2Visible, asideMenuVisible, togg
           <div className="mt-4 flex h-16 w-full flex-col justify-center">
             <p className="mx-5 text-[#8A8A8A] font-bold">{title}</p>
           </div>
-          <a href="/" className="mt-4 flex h-16 w-full flex-col justify-center rounded hover:bg-[#CFD4ED]">
+          <Link to={linkSubTitle} className="mt-4 flex h-16 w-full flex-col justify-center rounded hover:bg-[#CFD4ED]">
             <p className="mx-5 font-bold text-[#151515]">{subTitle}</p>
-          </a>
+          </Link>
         </aside>
       )}
       {/* /Aside 2 */}
@@ -52,14 +53,14 @@ const Sidebar: React.FC<SidebarProps> = ({ aside2Visible, asideMenuVisible, togg
               <div className="flex h-16 w-full items-center justify-center">
                 <div className="h-8 w-8 bg-[#CFD4ED]"></div>
               </div>
-              <a href="/" className="mt-4 flex h-16 w-full flex-col items-center justify-center rounded hover:bg-[#CFD4ED]">
+              <a href="/admin/dashboard" className="mt-4 flex h-16 w-full flex-col items-center justify-center rounded hover:bg-[#CFD4ED]">
                 <i data-feather="home" className="text-white"></i>
                 <p className="text-white text-xs font-bold">Dashboard</p>
               </a>
-              <a href="./cars" className="mt-4 flex h-16 w-full flex-col items-center justify-center rounded hover:bg-[#CFD4ED]">
+              <Link to={"/admin/cars"} className="mt-4 flex h-16 w-full flex-col items-center justify-center rounded hover:bg-[#CFD4ED]">
                 <i data-feather="truck" className="text-white"></i>
                 <p className="text-white text-xs font-bold">Cars</p>
-              </a>
+              </Link>
             </div>
             <div className="flex w-72 flex-col items-center overflow-auto bg-white">
               <div className="flex h-16 w-full px-5 py-5">
@@ -71,9 +72,9 @@ const Sidebar: React.FC<SidebarProps> = ({ aside2Visible, asideMenuVisible, togg
               <div className="mt-4 flex h-16 w-full flex-col justify-center">
                 <p className="mx-5 text-[#8A8A8A] font-bold">{title}</p>
               </div>
-              <a href="/" className="mt-4 flex h-16 w-full flex-col justify-center rounded hover:bg-[#CFD4ED]">
+              <Link to={linkSubTitle} className="mt-4 flex h-16 w-full flex-col justify-center rounded hover:bg-[#CFD4ED]">
                 <p className="mx-5 font-bold text-[#151515]">{subTitle}</p>
-              </a>
+              </Link>
             </div>
           </div>
         </aside>

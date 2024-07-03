@@ -27,7 +27,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <DashboardLayout
-      sidebar={<Sidebar aside2Visible={aside2Visible} asideMenuVisible={asideMenuVisible} toggleAsideMenu={toggleAsideMenu} title="DASHBOARD" subTitle="Dashboard" />}
+      sidebar={<Sidebar aside2Visible={aside2Visible} asideMenuVisible={asideMenuVisible} toggleAsideMenu={toggleAsideMenu} title="DASHBOARD" subTitle="Dashboard" linkSubTitle="/admin/dashboard" />}
       navbar={<Navbar handleMenuButtonClick={handleMenuButtonClick} />}
     >
       <Dashboard />
