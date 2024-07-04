@@ -25,15 +25,18 @@ const LoginForm: React.FC = () => {
       // Context
       const user = await loginUser(formData)
 
-      if (user && (user.role === "admin" || user.role === "superadmin")) {
-        navigate("/admin/dashboard", { replace: true })
+      if (user) {
+        if (user.role === "admin" || user.role === "superadmin") {
+          navigate("/admin/dashboard", { replace: true })
+        } else {
+          navigate(from, { replace: true })
+        }
       } else {
-        navigate(from, { replace: true })
+        setError("email", { message: "Invalid email or password" })
+        setError("password", { message: "Invalid email or password" })
       }
     } catch (error) {
       console.error("An error occurred during login:", error)
-      setError("email", { message: "Invalid email or password" })
-      setError("password", { message: "Invalid email or password" })
     }
   }
 

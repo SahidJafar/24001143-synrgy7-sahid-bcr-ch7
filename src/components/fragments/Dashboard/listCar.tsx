@@ -1,14 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom"
 import { CarsContext } from "../../../context/carsProvider"
 import { useContext, useEffect, useState } from "react"
+import DeleteModal from "../../elements/deleteModal"
+import feather from "feather-icons"
+
 const ListCar: React.FC = () => {
   const { carsPrivate, fetchCarsPrivate, deleteCar } = useContext(CarsContext)!
   const [currentFilter, setCurrentFilter] = useState<string>("All")
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [carToDelete, setCarToDelete] = useState<number | null>(null)
 
   useEffect(() => {
     fetchCarsPrivate()
-  }, [])
+    feather.replace()
+  }, [fetchCarsPrivate])
 
   // Filter cars where deleted_at is null
   let filteredCars = carsPrivate?.filter((car) => !car.deleted_at)
@@ -22,13 +27,28 @@ const ListCar: React.FC = () => {
     filteredCars = filteredCars?.filter((car) => car.capacity >= 8)
   }
 
-  const handleDeleteCar = async (id: number) => {
-    try {
-      await deleteCar(id)
-      window.location.reload()
-    } catch (error) {
-      console.error(error)
+  const handleShowModal = (id: number) => {
+    setCarToDelete(id)
+    setShowModal(true)
+  }
+
+  const handleDeleteCar = async () => {
+    if (carToDelete !== null) {
+      try {
+        await deleteCar(carToDelete)
+        setShowModal(false)
+        setCarToDelete(null)
+        fetchCarsPrivate() // Refresh the car list after deletion
+      } catch (error) {
+        console.error(error)
+        setShowModal(false)
+      }
     }
+  }
+
+  const handleCancelDelete = () => {
+    setShowModal(false)
+    setCarToDelete(null)
   }
 
   return (
@@ -64,9 +84,9 @@ const ListCar: React.FC = () => {
             <div className="flex items-center justify-center text-xl font-bold text-gray-500 h-48">Cars not found!</div>
           ) : (
             filteredCars?.map((car) => (
-              <div key={car.id} className="flex flex-col w-full h-full bg-white items-center rounded-lg shadow-lg border lg:ml-5">
-                <div className="lg:space-y-5 space-y-2 lg:ml-0 ml-2">
-                  <div className="flex items-center justify-center w-[200px] h-[150px] lg:w-[300px] lg:h-[200px]">
+              <div key={car.id} className="flex flex-col w-full h-full p-5 bg-white items-center rounded-lg shadow-lg border lg:ml-6">
+                <div className="lg:space-y-5 space-y-2 ml-2 mr-2">
+                  <div className="flex items-center justify-center w-[200px] h-[150px] lg:w-[300px] lg:h-[200px] mt-2">
                     <img src={car.image || ""} className="object-cover" alt={car.model} />
                   </div>
                   <p>
@@ -78,7 +98,7 @@ const ListCar: React.FC = () => {
                     <p className="text-gray-400">Updated at {new Date(car.updated_at).toLocaleString()}</p>
                   </div>
                   <div className="flex flex-row space-x-5">
-                    <button onClick={() => handleDeleteCar(car.id)} className="flex flex-row items-center justify-center space-x-2 lg:w-[144px] lg:h-[48px] w-[100px] h-[35px] border border-[#FA2C5A] rounded-sm">
+                    <button onClick={() => handleShowModal(car.id)} className="flex flex-row items-center justify-center space-x-2 lg:w-[144px] lg:h-[48px] w-[100px] h-[35px] border border-[#FA2C5A] rounded-sm">
                       <i data-feather="trash" className="text-[#FA2C5A]"></i>
                       <p className="text-[#FA2C5A] font-bold">Delete</p>
                     </button>
@@ -95,6 +115,7 @@ const ListCar: React.FC = () => {
           )}
         </div>
       </section>
+      {showModal && <DeleteModal onConfirm={handleDeleteCar} onCancel={handleCancelDelete} />}
     </>
   )
 }

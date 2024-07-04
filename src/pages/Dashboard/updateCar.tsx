@@ -26,7 +26,7 @@ const UpdateCarPage: React.FC = () => {
   }, [toggleAsideMenu])
   return (
     <DashboardLayout
-      sidebar={<Sidebar aside2Visible={aside2Visible} asideMenuVisible={asideMenuVisible} toggleAsideMenu={toggleAsideMenu} title="Cars" subTitle="List Car" />}
+      sidebar={<Sidebar aside2Visible={aside2Visible} asideMenuVisible={asideMenuVisible} toggleAsideMenu={toggleAsideMenu} title="Cars" subTitle="List Car" linkSubTitle="/admin/cars" />}
       navbar={<Navbar handleMenuButtonClick={handleMenuButtonClick} />}
     >
       <UpdateCar />
