@@ -3,16 +3,12 @@ import { Link } from "react-router-dom"
 import { CarsContext } from "../../../context/carsProvider"
 import { useContext, useEffect, useState } from "react"
 const ListCar: React.FC = () => {
-  const { carsPrivate, error, fetchCarsPrivate, deleteCar } = useContext(CarsContext)!
+  const { carsPrivate, fetchCarsPrivate, deleteCar } = useContext(CarsContext)!
   const [currentFilter, setCurrentFilter] = useState<string>("All")
 
   useEffect(() => {
     fetchCarsPrivate()
   }, [])
-
-  if (error) {
-    return <p>Error: {error}</p>
-  }
 
   // Filter cars where deleted_at is null
   let filteredCars = carsPrivate?.filter((car) => !car.deleted_at)

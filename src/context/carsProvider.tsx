@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react"
 import { addCarFormData, updateCarFormData } from "../utils/types/cars"
 import { axiosInstance } from "../services/axios"
 
-interface ICars {
+export interface ICars {
   id: number
   plate: string
   manufacture: string
@@ -60,6 +60,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       })
       setCarsPrivate(response.data.data)
     } catch (error) {
+      setCarsPrivate([])
       setError("Failed to fetch cars")
     }
   }
@@ -76,7 +77,7 @@ const CarsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   const searchCars = async (capacity?: string, availableAt?: string, pickupTime?: string) => {
     try {
-      const queryParams: Record<string, string | undefined> = {};
+      const queryParams: Record<string, string | undefined> = {}
 
       if (capacity) queryParams["capacityFilter"] = capacity
       if (availableAt && pickupTime) {
