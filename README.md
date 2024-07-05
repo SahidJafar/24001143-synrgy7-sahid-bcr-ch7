@@ -1,10 +1,10 @@
 # React + TypeScript + Vite
 
-## Use This Backend:
+## Use This Back-end:
 ``
 https://github.com/SahidJafar/24001143-SYNRGY7-sah-bcr-ch6
 ``
-## Step Using FrontEnd:
+## Step Using Front-End:
 1. Install Npm
 ```
 $ npm install
