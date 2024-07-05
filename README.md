@@ -1,5 +1,24 @@
 # React + TypeScript + Vite
 
+## Use This Backend:
+``
+[http://localhost:(PORT)/api-docs/](https://github.com/SahidJafar/24001143-SYNRGY7-sah-bcr-ch6)
+``
+## Step Using FrontEnd:
+1. Install Npm
+```
+$ npm install
+```
+2. Copy .env.example to .env then fill in the VITE_BASE_URL API and VITE_GOOGLE_CLIENT_ID
+```
+$ cp .env.example .env
+```
+3.Run!
+```
+$ npm run dev # run development!
+```
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
