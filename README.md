@@ -2,7 +2,7 @@
 
 ## Use This Backend:
 ``
-[http://localhost:(PORT)/api-docs/](https://github.com/SahidJafar/24001143-SYNRGY7-sah-bcr-ch6)
+https://github.com/SahidJafar/24001143-SYNRGY7-sah-bcr-ch6
 ``
 ## Step Using FrontEnd:
 1. Install Npm
